@@ -1,1 +1,55 @@
-select * from table1
+DROP TABLE IF EXISTS BookLoan;
+DROP TABLE IF EXISTS Books;
+DROP TABLE IF EXISTS Readers;
+DROP TABLE IF EXISTS Authors;
+
+
+
+
+CREATE TABLE Authors (
+    author_id SERIAL PRIMARY KEY,
+    author_name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE Books (
+    book_id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    author_id INT REFERENCES Authors(author_id),
+    genre VARCHAR(50),
+    publication_year INT,
+    status VARCHAR(20)
+);
+
+CREATE TABLE Readers (
+    reader_id SERIAL PRIMARY KEY,
+    reader_name VARCHAR(255) NOT NULL,
+    membership_status VARCHAR(20)
+);
+
+CREATE TABLE BookLoan (
+    loan_id SERIAL PRIMARY KEY,
+    book_id INT REFERENCES Books(book_id),
+    reader_id INT REFERENCES Readers(reader_id),
+    loan_date DATE,
+    return_date DATE
+);
+INSERT INTO Authors (author_name) VALUES
+    ('Александр Пушкин'),
+    ('Лев Толстой'),
+    ('Федор Достоевский');
+
+INSERT INTO Books (title, author_id, genre, publication_year, status) VALUES
+    ('Евгений Онегин', 1, 'Роман', 1833, 'Доступна'),
+    ('Война и мир', 2, 'Исторический роман', 1869, 'Доступна'),
+    ('Преступление и наказание', 3, 'Роман', 1866, 'Доступна');
+
+INSERT INTO Readers (reader_name, membership_status) VALUES
+    ('Иван Иванов', 'Активный'),
+    ('Мария Петрова', 'Активный'),
+    ('Петр Сидоров', 'Заблокированный');
+
+INSERT INTO BookLoan (book_id, reader_id, loan_date, return_date) VALUES
+    (1, 1, '2023-01-15', '2023-02-15'),
+    (2, 2, '2023-02-01', '2023-03-01'),
+    (3, 3, '2023-03-09', '2023-04-09');
+
