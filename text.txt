@@ -1,1 +1,1 @@
-hello world!
+select * from table1
